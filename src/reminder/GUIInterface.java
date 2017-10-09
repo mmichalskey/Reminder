@@ -4,17 +4,19 @@
  * and open the template in the editor.
  */
 package reminder;
+import java.awt.*;
+import java.util.ArrayList;
+import javax.swing.*;
+
+
 
 /**
  *
  * @author mmichalski
  */
-public class Main {
-    
-    public static void main(String[] args)
-    {
-        MainWindow.getInstance().initWindow("Reminder app");
+public class GUIInterface {
+
+    public GUIInterface() {
         
     }
-    
- }
+}
