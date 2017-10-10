@@ -9,6 +9,10 @@ import java.awt.Button;
 import java.awt.Color;
 import java.awt.Label;
 import java.time.*;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -35,27 +39,45 @@ public class MainWindow {
 
     public void initWindow(String title)
     {
-        YearMonth yearMonthObject = YearMonth.of(2017, 10);
-        int daysInMonth = yearMonthObject.lengthOfMonth();
+        Year year = new Year();
+        Month month = year.getMonth(10);
+        int startDay = month.getStartDay();
+        int monthDays = month.getMonthDays();
         
         this.mainFrame.setTitle(title);
         this.mainFrame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE );
-        this.mainFrame.setLayout( new java.awt.GridLayout(5,7));
-        
-        for(int i=0; i<daysInMonth; i++)
+        this.mainFrame.setLayout( new java.awt.GridLayout(7, 7, 1, 1));
+        List<String> daysOfWeek = Arrays.asList("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
+        for(String d: daysOfWeek)
         {
-            int mod = 0;
-            JLabel label = new JLabel(Integer.toString(i+1));
+            JLabel label = new JLabel(d);
             label.setBorder(BorderFactory.createLineBorder(Color.gray, 1));
             this.mainFrame.add(label);
-            mod++;
-            if(mod%7==0)
+        }
+        
+        int day = 1;
+        for(int i=1; i<43; i++)
+        {
+            
+            if(i>=startDay && monthDays+startDay>i)
             {
-                mod = 0;
+                
+                JLabel label = new JLabel(Integer.toString(day));
+                label.setBorder(BorderFactory.createLineBorder(Color.gray, 1));
+                this.mainFrame.add(label);
+                day++;
+            }
+            else
+            {
+                JLabel label = new JLabel();
+                label.setOpaque(true);
+                label.setBackground(Color.darkGray);
+                label.setBorder(BorderFactory.createLineBorder(Color.gray, 1));
+                this.mainFrame.add(label);  
             }
         }
         this.mainFrame.pack();
         this.mainFrame.setVisible(true);
-        this.mainFrame.setSize(300, 200);
+        this.mainFrame.setSize(400, 300);
     }
 }

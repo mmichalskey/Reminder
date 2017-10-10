@@ -14,7 +14,6 @@ public class Main {
     public static void main(String[] args)
     {
         MainWindow.getInstance().initWindow("Reminder app");
-        
     }
     
  }
