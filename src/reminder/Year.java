@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -20,13 +19,13 @@ import java.util.Locale;
  */
 public class Year {
     
-    private int year;
-    private ArrayList<Month> months;
+    private final int year;
+    private final ArrayList<Month> months;
     
     public Year()
     {
       this.year = LocalDateTime.now().getYear();;
-      months = new ArrayList<Month>();
+      months = new ArrayList<>();
       this.generateMonths();
       this.updateDaysName();
     }
@@ -56,11 +55,9 @@ public class Year {
         {   
             for(int i=1; i<=month.getMonthDays(); i++)
             {   
-                int xxx = month.getMonthNumber();
                 date.set(this.year, month.getMonthNumber()-1, i);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE", Locale.ENGLISH);
                 String asWeekDay = dateFormat.format(date.getTime());
-                System.out.println(date.getTime());
                 month.getDay(i).setDayName(asWeekDay);
             }
         }

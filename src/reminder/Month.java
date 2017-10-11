@@ -15,17 +15,17 @@ import java.util.List;
  */
 public class Month {
     
-    private int monthNumber;
-    private String monthName;
-    private int monthDays;
-    private ArrayList<Day> days;
+    private final int monthNumber;
+    private final String monthName;
+    private final int monthDays;
+    private final ArrayList<Day> days;
     
     Month(int monthNumber, String monthName, int monthDays)
     {
         this.monthNumber = monthNumber;
         this.monthName = monthName;
         this.monthDays = monthDays;
-        this.days = new ArrayList<Day>();
+        this.days = new ArrayList<>();
         this.generateDays();
     }
     
@@ -59,7 +59,7 @@ public class Month {
     
     public int getStartDay()
     {
-        List<String> daysOfWeek = Arrays.asList("Monday", "Tuesday", "Wednesday", "Thurstday", "Friday", "Saturday", "Sunday");
+        List<String> daysOfWeek = Arrays.asList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
         String day = this.getDay(1).getDayName();
         return (daysOfWeek.indexOf(day)+1);
     }

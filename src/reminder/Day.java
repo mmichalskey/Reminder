@@ -5,18 +5,24 @@
  */
 package reminder;
 
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+
 /**
  *
  * @author mmichalski
  */
-public class Day {
+public class Day extends JLabel {
     
     private int dayNumber;
     private String dayName;
     
     public Day(int dayNumber)
     {
+        super.setText(Integer.toString(dayNumber));
         this.dayNumber = dayNumber;
+        
     }
     
     public void setDayName(String dayName)
