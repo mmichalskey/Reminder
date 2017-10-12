@@ -19,16 +19,17 @@ import java.util.Locale;
  */
 public class Year {
     
-    private final int year;
+    private int year;
     private final ArrayList<Month> months;
     
-    public Year()
+    public Year(int year)
     {
-      this.year = LocalDateTime.now().getYear();;
+      this.year = year;
       months = new ArrayList<>();
       this.generateMonths();
       this.updateDaysName();
     }
+    
     private String getMonthForNumber(int num)
     {
         DateFormatSymbols dfs = new DateFormatSymbols(Locale.ENGLISH);
@@ -62,6 +63,22 @@ public class Year {
             }
         }
     }
+    
+    public int getYear()
+    {
+        return this.year;
+    }
+    
+    public void setYear(int year)
+    {
+        this.year = year;
+    }
+    
+    public int getCurrentMonth()
+    {
+        return LocalDateTime.now().getMonthValue();
+    }
+    
     
     public Month getMonth(int num)
     {

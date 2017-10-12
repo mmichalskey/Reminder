@@ -7,6 +7,7 @@ package reminder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.*;
@@ -18,24 +19,23 @@ import javax.swing.plaf.basic.BasicArrowButton;
  *
  * @author mmichalski
  */
-public class GUIInterface implements ActionListener {
+public class GUI implements ActionListener  {
 
-    private final JPanel calendarPanel;
-    private final JPanel changeMonthPanel;
-    private final JPanel daysPanel;
-    private final JPanel detailsPanel;
-    private final Year year;
+    private JPanel calendarPanel;
+    private JPanel changeMonthPanel;
+    private JPanel daysPanel;
+    private DayDetailsView detailsView;
+    private Year year;
     private int month;
-    public GUIInterface() 
+    public GUI() 
     {
-        this.month = 6;
         this.calendarPanel = new JPanel();
         this.changeMonthPanel = new JPanel();
         this.daysPanel = new JPanel();
-        this.detailsPanel = new JPanel();
-        this.year = new Year();
+        this.detailsView = new DayDetailsView();
+        this.year = new Year(LocalDateTime.now().getYear());
+        this.month = this.year.getCurrentMonth();
         this.generateMothView();
-        this.generateDetailsView();
     }
     
     private void generateDays()
@@ -44,8 +44,8 @@ public class GUIInterface implements ActionListener {
         int monthDays = this.year.getMonth(this.month).getMonthDays();
         int gridSize;
         int day = 1;
-        // POPRAWKA do wyświetlanego gridu !!!
-        if(startDay > 2 && monthDays < 31)
+        
+        if(monthDays <= 31 && startDay <= 6)
         {
             this.daysPanel.setLayout(new GridLayout(6, 7, 1, 1));
             gridSize = 35;
@@ -103,13 +103,12 @@ public class GUIInterface implements ActionListener {
         this.changeMonthPanel.setLayout(new GridLayout(1, 3, 1, 1));
         this.changeMonthPanel.setPreferredSize(new Dimension(150, 20));
         this.changeMonthPanel.add(left, BorderLayout.WEST);
-        this.changeMonthPanel.add(new JLabel(Integer.toString(this.month), SwingConstants.CENTER));
+        this.changeMonthPanel.add(new JLabel(this.year.getMonth(this.month).getMonthName() 
+                + " " + this.year.getYear(), SwingConstants.CENTER));
         this.changeMonthPanel.add(right, BorderLayout.EAST);
         left.addActionListener(this);
         right.addActionListener(this);
-               
-        
-        
+ 
     }
     
     private void generateMothView()
@@ -122,27 +121,15 @@ public class GUIInterface implements ActionListener {
         this.calendarPanel.setPreferredSize(new Dimension(300,300));
         this.calendarPanel.add(this.changeMonthPanel, BorderLayout.NORTH);
         this.calendarPanel.add(this.daysPanel, BorderLayout.WEST);
+        
     }
     
-    private void generateDetailsView()
-    {
-        this.detailsPanel.setBorder(BorderFactory.createEmptyBorder(15, 10, 5, 5));
-        this.detailsPanel.setLayout(new BoxLayout(this.detailsPanel, BoxLayout.Y_AXIS));
-        List<String> events = Arrays.asList("Wydarzenia: Tesst", "Gdzie: w Dupie", "Data: 11-10-2017");
-        for(String s : events)
-        {
-           JLabel l = new JLabel(s);
-           l.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-           this.detailsPanel.add(l);
-        }
-    }
-    
-    private void cleanPanels()
-    {
+    private void cleanPanels() 
+   {
         this.calendarPanel.removeAll(); 
         this.changeMonthPanel.removeAll(); 
-        this.daysPanel.removeAll(); 
-        this.detailsPanel.removeAll(); 
+        this.daysPanel.removeAll();
+        this.daysPanel.removeAll();
      }
     
     public void setCalendarView(JFrame window)
@@ -151,8 +138,10 @@ public class GUIInterface implements ActionListener {
     }
     public void setDetailsView(JFrame window)
     {
-        window.add(this.detailsPanel);
+        
+        this.detailsView.setDetailsView(window);
     }
+
 
     
     @Override
@@ -161,17 +150,26 @@ public class GUIInterface implements ActionListener {
        
        if ("left".equals(e.getActionCommand()))
        {
-            if(this.month > 1)
-                this.month--;
+            this.month--;
+            if(this.month < 1)
+            {
+                this.year = new Year(this.year.getYear()-1);
+                this.month = 12;
+            }               
        }
        else
        {
-            if(this.month < 12 )
-                this.month++;
+            this.month++;
+            if(this.month > 12)
+            {
+                this.year = new Year(this.year.getYear()+1);
+                this.month = 1;     
+            }         
        }
        this.generateMothView();
        MainWindow.getInstance().reloadWindow();
        
    }
+
     
 }

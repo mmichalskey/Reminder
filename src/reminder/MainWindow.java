@@ -6,6 +6,7 @@
 package reminder;
 
 import java.awt.GridLayout;
+import java.time.LocalDateTime;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -18,8 +19,9 @@ import javax.swing.SwingUtilities;
 public class MainWindow {
     
     private static MainWindow instance = null;
+    public static Day previousCheckedDay = null;
     private final JFrame mainFrame = new JFrame();
-    private GUIInterface guiInterface;
+    private GUI gui;
     private MainWindow(){}
     
     public static MainWindow getInstance(){
@@ -33,14 +35,15 @@ public class MainWindow {
     {
         SwingUtilities.updateComponentTreeUI(this.mainFrame);
     }
+
     public void initWindow(String title)
     {
-        guiInterface = new GUIInterface();
+        gui = new GUI();
         this.mainFrame.setTitle(title);
         this.mainFrame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE );
         this.mainFrame.setLayout(new GridLayout (1,2));
-        guiInterface.setCalendarView(this.mainFrame);
-        guiInterface.setDetailsView(this.mainFrame);
+        gui.setCalendarView(this.mainFrame);
+        gui.setDetailsView(this.mainFrame);
         this.mainFrame.pack();
         this.mainFrame.setVisible(true);
         this.mainFrame.setResizable(false);

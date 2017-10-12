@@ -5,6 +5,7 @@
  */
 package reminder;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public class Month {
     
-    private final int monthNumber;
+    private int monthNumber;
     private final String monthName;
     private final int monthDays;
     private final ArrayList<Day> days;
@@ -33,8 +34,24 @@ public class Month {
     {
         for(int i=1; i<=this.monthDays; i++)
         {
-            this.days.add(new Day(i));
+            Day day = new Day(i);
+            this.days.add(day);
         }
+    }
+    
+    public int getSelectedDay()
+    {
+        for(Day day : days)
+        {
+            if(day.isSelected())
+                return day.getDayNumber();
+        }
+        return 0;
+    }
+    
+    public String getMonthName()
+    {
+        return this.monthName;
     }
     
     public int getMonthNumber()
@@ -63,5 +80,4 @@ public class Month {
         String day = this.getDay(1).getDayName();
         return (daysOfWeek.indexOf(day)+1);
     }
-    
 }
